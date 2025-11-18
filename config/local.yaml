@@ -1,0 +1,109 @@
+# CodeArchitect AI - Local Embeddings Configuration
+project:
+  name: "CodeArchitect AI"
+  version: "1.0.0"
+  agent_name: "Cortex"
+
+paths:
+  source_code: "./src-to-analyze"
+  output_dir: "./output"
+  vector_store: "./output/vectorstore"
+  export_file: "./output/cortex_knowledge_base_local.json"
+
+code_processing:
+  extensions:
+    - ".js"
+    - ".jsx"
+    - ".ts"
+    - ".tsx"
+
+  ignore_dirs:
+    - "node_modules"
+    - ".git"
+    - "build"
+    - "dist"
+    - ".expo"
+    - "coverage"
+    - "__tests__"
+    - "android"
+    - "ios"
+
+  ignore_files:
+    - "package-lock.json"
+    - "yarn.lock"
+    - ".env"
+
+  chunking:
+    strategy: "smart"
+    chunk_size: 1500
+    chunk_overlap: 200
+    respect_code_structure: true
+
+# LOCAL EMBEDDINGS - No API key needed!
+embedding:
+  provider: "local"  # Using local embeddings
+
+  # Choose model:
+  # - all-MiniLM-L6-v2: Fast, good quality (RECOMMENDED)
+  # - all-mpnet-base-v2: Best quality, slower
+  # - paraphrase-multilingual-MiniLM-L12-v2: Multilingual
+  model: "all-MiniLM-L6-v2"
+
+  batch_size: 32  # Smaller batches for local
+  max_retries: 1  # No need for retries (local)
+  timeout: 60  # Longer timeout for CPU processing
+
+  # Local specific settings
+  cache_folder: "./models"  # Where to store downloaded models
+  use_gpu: true  # Use GPU if available
+
+vector_store:
+  type: "chroma"
+  persist: true
+  collection_name: "cortex_codebase_local"
+
+metadata:
+  extract_imports: true
+  extract_exports: true
+  extract_functions: true
+  extract_components: true
+  detect_patterns: true
+  calculate_complexity: true
+  detect_business_domain: true
+
+architecture:
+  detect_layers: true
+  detect_patterns: true
+  analyze_dependencies: true
+  map_features: true
+
+  layers:
+    presentation:
+      - "components"
+      - "screens"
+      - "views"
+      - "pages"
+    business:
+      - "services"
+      - "hooks"
+      - "store"
+      - "context"
+    data:
+      - "api"
+      - "models"
+      - "repositories"
+      - "database"
+
+export:
+  format: "json"
+  include_embeddings: true
+  include_metadata: true
+  compress: false
+  pretty_print: true
+
+logging:
+  level: "INFO"
+  file: "./output/cortex_local.log"
+  format: "detailed"
+  console_output: true
+

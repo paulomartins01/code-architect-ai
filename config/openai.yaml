@@ -1,0 +1,105 @@
+# CodeArchitect AI - OpenAI Embeddings Configuration
+project:
+  name: "CodeArchitect AI"
+  version: "1.0.0"
+  agent_name: "Cortex"
+
+paths:
+  source_code: "./src-to-analyze"
+  output_dir: "./output"
+  vector_store: "./output/vectorstore"
+  export_file: "./output/cortex_knowledge_base_openai.json"
+
+code_processing:
+  extensions:
+    - ".js"
+    - ".jsx"
+    - ".ts"
+    - ".tsx"
+
+  ignore_dirs:
+    - "node_modules"
+    - ".git"
+    - "build"
+    - "dist"
+    - ".expo"
+    - "coverage"
+    - "__tests__"
+    - "android"
+    - "ios"
+
+  ignore_files:
+    - "package-lock.json"
+    - "yarn.lock"
+    - ".env"
+
+  chunking:
+    strategy: "smart"
+    chunk_size: 1500
+    chunk_overlap: 200
+    respect_code_structure: true
+
+# OPENAI EMBEDDINGS - Requires API key
+embedding:
+  provider: "openai"  # Using OpenAI API
+
+  # OpenAI models:
+  # - text-embedding-3-small: Best value ($0.02/1M tokens)
+  # - text-embedding-3-large: Highest quality ($0.13/1M tokens)
+  # - text-embedding-ada-002: Legacy model
+  model: "text-embedding-3-small"
+
+  batch_size: 100  # Larger batches for API
+  max_retries: 3  # Retry on API errors
+  timeout: 30  # API timeout
+
+vector_store:
+  type: "chroma"
+  persist: true
+  collection_name: "cortex_codebase_openai"
+
+metadata:
+  extract_imports: true
+  extract_exports: true
+  extract_functions: true
+  extract_components: true
+  detect_patterns: true
+  calculate_complexity: true
+  detect_business_domain: true
+
+architecture:
+  detect_layers: true
+  detect_patterns: true
+  analyze_dependencies: true
+  map_features: true
+
+  layers:
+    presentation:
+      - "components"
+      - "screens"
+      - "views"
+      - "pages"
+    business:
+      - "services"
+      - "hooks"
+      - "store"
+      - "context"
+    data:
+      - "api"
+      - "models"
+      - "repositories"
+      - "database"
+
+export:
+  format: "json"
+  include_embeddings: true
+  include_metadata: true
+  compress: false
+  pretty_print: true
+
+logging:
+  level: "INFO"
+  file: "./output/cortex_openai.log"
+  format: "detailed"
+  console_output: true
+

@@ -1,0 +1,6 @@
+﻿# For OPENAI embeddings only
+python-dotenv==1.0.0
+pyyaml==6.0.1
+openai>=1.12.0
+tiktoken>=0.5.2
+tenacity==8.2.3

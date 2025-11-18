@@ -1,0 +1,130 @@
+# CodeArchitect AI Configuration
+# Choose your embedding provider below!
+
+project:
+  name: "CodeArchitect AI"
+  version: "1.0.0"
+  agent_name: "Cortex"  # Configure your agent name here
+
+paths:
+  source_code: "./src-to-analyze"
+  output_dir: "./output"
+  vector_store: "./output/vectorstore"
+  export_file: "./output/cortex_knowledge_base.json"
+
+code_processing:
+  extensions:
+    - ".js"
+    - ".jsx"
+    - ".ts"
+    - ".tsx"
+
+  ignore_dirs:
+    - "node_modules"
+    - ".git"
+    - "build"
+    - "dist"
+    - ".expo"
+    - "coverage"
+    - "__tests__"
+    - "android"
+    - "ios"
+
+  ignore_files:
+    - "package-lock.json"
+    - "yarn.lock"
+    - ".env"
+
+  chunking:
+    strategy: "smart"
+    chunk_size: 1500
+    chunk_overlap: 200
+    respect_code_structure: true
+
+# ============================================
+# EMBEDDING CONFIGURATION - CHOOSE ONE!
+# ============================================
+
+# OPTION 1: LOCAL (Recommended to start)
+# - Free, no API key needed
+# - Good quality (90% of OpenAI)
+# - Runs on your machine
+# - First run downloads ~80MB model
+
+embedding:
+  provider: "local"  # Change to "openai" for cloud embeddings
+  model: "all-MiniLM-L6-v2"  # For local
+  # model: "text-embedding-3-small"  # For OpenAI
+  batch_size: 32  # 32 for local, 100 for OpenAI
+  max_retries: 1
+  timeout: 60
+  cache_folder: "./models"  # Only for local
+
+# OPTION 2: OPENAI (Better quality, costs money)
+# Uncomment below and comment above to use OpenAI:
+
+# embedding:
+#   provider: "openai"
+#   model: "text-embedding-3-small"
+#   batch_size: 100
+#   max_retries: 3
+#   timeout: 30
+
+# ============================================
+
+# Vector Store Configuration
+vector_store:
+  type: "chroma"  # chroma, pinecone, weaviate
+  persist: true
+  collection_name: "cortex_codebase"
+
+# Metadata Extraction
+metadata:
+  extract_imports: true
+  extract_exports: true
+  extract_functions: true
+  extract_components: true
+  detect_patterns: true
+  calculate_complexity: true
+  detect_business_domain: true
+
+# Architecture Analysis
+architecture:
+  detect_layers: true
+  detect_patterns: true
+  analyze_dependencies: true
+  map_features: true
+
+  # Layer classification keywords
+  layers:
+    presentation:
+      - "components"
+      - "screens"
+      - "views"
+      - "pages"
+    business:
+      - "services"
+      - "hooks"
+      - "store"
+      - "context"
+    data:
+      - "api"
+      - "models"
+      - "repositories"
+      - "database"
+
+# Export Configuration
+export:
+  format: "json"  # json, jsonl, parquet
+  include_embeddings: true
+  include_metadata: true
+  compress: false
+  pretty_print: true
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "./output/cortex.log"
+  format: "detailed"  # simple, detailed, json
+  console_output: true
+
