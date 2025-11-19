@@ -1,19 +1,22 @@
 # 🏗️ CodeArchitect AI
 
-> Transform your React Native codebase into an intelligent knowledge base for AI-powered architectural decisions
+> Transform your codebase into an intelligent knowledge base for AI-powered architectural decisions
 
 ## 🎯 Overview
 
 **CodeArchitect AI** uses RAG (Retrieval Augmented Generation) to analyze your codebase and create an intelligent agent (default name: **Cortex**) that understands your code deeply and provides architectural guidance based on actual code structure, patterns, and best practices.
 
+**Out of the box for React Native, easily adaptable for any language/framework** (React, Vue, Python, Java, C#, Go, Rust, PHP, Ruby, and more).
+
 The agent name is configurable in `config/default.yaml`.
 
 ## ✨ Features
 
-- 🔍 **Smart Code Analysis**: Automatically analyzes React Native projects
+- 🔍 **Smart Code Analysis**: Automatically analyzes your projects with intelligent chunking
 - 🧠 **RAG-Powered**: Uses Retrieval Augmented Generation for context-aware responses
 - 📊 **Architecture Detection**: Identifies layers, patterns, and dependencies
 - 🎨 **Flexible Configuration**: YAML-based configuration for easy customization
+- 🌍 **Multi-Language Support**: Works with JavaScript, TypeScript, Python, Java, C#, Go, Rust, PHP, Ruby, and more
 - 📦 **Export Ready**: Generates vector databases compatible with agent builders
 - 💰 **Dual Embedding Support**: Choose between FREE local embeddings or OpenAI
 
@@ -44,8 +47,11 @@ pip install -r requirements.txt
 ### Basic Usage
 
 ```bash
-# Run with default configuration (uses LOCAL embeddings)
+# Run with default configuration (React Native, uses LOCAL embeddings)
 python main.py --source ../your-react-native-project
+
+# For other project types (Python example)
+python main.py --source ../your-python-project
 
 # Dry run (no embeddings, just analysis)
 python main.py --dry-run
@@ -116,6 +122,81 @@ embedding:
 
 ## ⚙️ Configuration
 
+### 🎯 Adapting for Different Project Types
+
+**CodeArchitect AI** is pre-configured for **React Native** projects, but can be easily adapted for other frameworks and languages. Here's how to customize it for your tech stack:
+
+#### 🔍 Quick Reference - Supported Technologies
+
+| Technology          | Extensions                   | Status     | Configuration        |
+| ------------------- | ---------------------------- | ---------- | -------------------- |
+| **React Native**    | `.js`, `.jsx`, `.ts`, `.tsx` | ✅ Default | No changes needed    |
+| **React / Next.js** | `.js`, `.jsx`, `.ts`, `.tsx` | ✅ Ready   | Minor adjustments    |
+| **Vue / Nuxt**      | `.js`, `.ts`, `.vue`         | ✅ Ready   | Add `.vue` extension |
+| **Python**          | `.py`                        | ✅ Ready   | Change extensions    |
+| **Java / Kotlin**   | `.java`, `.kt`               | ✅ Ready   | Change extensions    |
+| **C# / .NET**       | `.cs`, `.razor`              | ✅ Ready   | Change extensions    |
+| **Go**              | `.go`                        | ✅ Ready   | Change extensions    |
+| **Rust**            | `.rs`                        | ✅ Ready   | Change extensions    |
+| **PHP / Laravel**   | `.php`, `.blade.php`         | ✅ Ready   | Change extensions    |
+| **Ruby / Rails**    | `.rb`, `.erb`                | ✅ Ready   | Change extensions    |
+
+> 💡 **Tip**: For any language, just update `extensions` and `ignore_dirs` in your config file!
+
+#### 📝 Configuration Example
+
+To adapt for your project, simply edit `config/default.yaml` or create a custom config file:
+
+```yaml
+# Example: Python Project Configuration
+project:
+  name: "My Python Project"
+  agent_name: "MyAgent"
+
+paths:
+  source_code: "../my-python-project"
+  export_file: "./output/my_project_knowledge_base.json"
+
+code_processing:
+  extensions:
+    - ".py"
+
+  ignore_dirs:
+    - "__pycache__"
+    - ".git"
+    - "venv"
+    - "build"
+    - "dist"
+
+embedding:
+  provider: "local" # or "openai"
+  model: "all-MiniLM-L6-v2"
+
+architecture:
+  layers:
+    presentation:
+      - "views"
+      - "templates"
+    business:
+      - "services"
+      - "controllers"
+    data:
+      - "models"
+      - "repositories"
+```
+
+**Usage:**
+
+```bash
+# Option 1: Edit default config
+python main.py --source ../my-python-project
+
+# Option 2: Create custom config file
+python main.py --config config/my-project.yaml
+```
+
+### Basic Configuration
+
 Edit `config/default.yaml` to customize:
 
 ```yaml
@@ -154,11 +235,41 @@ Start asking architectural questions to your agent!
 
 ## 🤖 Example Agent Queries
 
+### For React Native / React / Vue Projects:
+
 - "What's our current architecture structure?"
 - "How is navigation implemented?"
 - "Suggest improvements for state management"
 - "Review the authentication flow"
 - "What patterns are being used?"
+- "Show me all API calls and their error handling"
+- "List all React hooks used in the project"
+
+### For Python / Django / Flask Projects:
+
+- "What's the database schema structure?"
+- "Review the authentication and authorization flow"
+- "Show me all API endpoints and their permissions"
+- "What design patterns are used?"
+- "How is error handling implemented?"
+- "List all models and their relationships"
+
+### For Java / Spring Boot Projects:
+
+- "What's the application architecture?"
+- "Review the dependency injection configuration"
+- "Show me all REST endpoints"
+- "What design patterns are implemented?"
+- "How is exception handling done?"
+- "List all services and their dependencies"
+
+### For Any Project Type:
+
+- "What's the overall code quality?"
+- "Identify potential security issues"
+- "Suggest architectural improvements"
+- "Find code duplication and suggest refactoring"
+- "What are the main dependencies between modules?"
 
 ## 📊 Output Files
 
