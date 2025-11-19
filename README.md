@@ -120,6 +120,23 @@ embedding:
 | **Speed**   | 5 min      | 2 min       |
 | **Offline** | ✅ Yes     | ❌ No       |
 
+## 🔒 Privacy & Security
+
+### Local Embeddings
+
+**Your code NEVER leaves your machine!** 🔒
+
+- 📥 Models downloaded once (~80MB) and processed locally
+- 🔐 Zero network calls after initial download
+- 🧮 One-way mathematical transformation (code → vectors)
+- 🏢 Perfect for enterprise, proprietary, or sensitive code
+
+### OpenAI Embeddings
+
+- 📤 Code sent to OpenAI servers for processing
+- 🚫 Not stored or used for training
+- ⚖️ Subject to OpenAI's terms of service
+
 ## ⚙️ Configuration
 
 ### 🎯 Adapting for Different Project Types
