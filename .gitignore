@@ -45,3 +45,10 @@ Thumbs.db
 # Project specific
 src-to-analyze/
 
+# Models (large files - should be downloaded via code)
+models/
+*.safetensors
+*.bin
+*.onnx
+*.h5
+
